@@ -12,12 +12,10 @@ class Solution {
     public int maxEnvelopes(int[][] envelopes) {
         Node root = makeGraph(envelopes);
 
-        return print(root, 0);
-        //return 0;           
+        return solve(root, 0);
     }
 
-    private int print(Node node, int deep) {
-        //System.out.println(" ".repeat(deep) + node.w + ":" + node.h);
+    private int solve(Node node, int deep) {
         int max = deep;
         for (int i = 0; i < node.nodes.size(); i++) {
             int d = print(node.nodes.get(i), deep+1);
