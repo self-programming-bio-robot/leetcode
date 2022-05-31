@@ -9,25 +9,22 @@ class Solution {
         if (s.length() < k) return false;
         byte[] subsequences = new byte[1 << k];
         int subseq = s.charAt(0) - '0';
-        System.out.println(Integer.toBinaryString(subseq));
         for (byte i = 1; i < k; i++) {
             subseq = subseq << 1;
             subseq |= s.charAt(i) - '0';
         }
-        
-        System.out.println(Integer.toBinaryString(subseq));
         subsequences[subseq] = 1; 
 
         int zerobit = ~(1 << k);
+        int count = subsequences[subseq];
         for (int i = k; i < s.length(); i++) {
             subseq = ((subseq << 1) & zerobit) | (s.charAt(i) - '0');
-            subsequences[subseq] = 1;
+            if (subsequences[subseq] == 0) {
+                subsequences[subseq] = 1;
+                count++;
+            }
         }
 
-        for (int i = 0; i < subsequences.length; i++) {
-            if (subsequences[i] == 0)
-                return false;
-        }
-        return true;        
+        return count == 1 << k;    
     }
 }
