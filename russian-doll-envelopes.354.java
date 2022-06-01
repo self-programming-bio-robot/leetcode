@@ -1,58 +1,66 @@
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.Comparator;
 
 public class RussianDollEnvelopes354 {
     public static void main(String[] args) {
-        int[][] inp = {{1,1},{1,1},{1,1},{1,1}}; 
+        int[][] inp = {{30,50},{12,2},{3,4},{12,15}};
+//        int[][] inp = {{5,4},{6,4},{6,7},{2,3}};
+//        int[][] inp = {{1,3},{3,5},{6,7},{6,8}, {8,4}, {9,5}};
+//        int[][] inp = {{46,89},{50,53},{52,68},{72,45},{77,81}};
+//        int[][] inp = {{4,5},{4,6},{6,7},{2,3},{1,1}};
         System.out.println(new Solution().maxEnvelopes(inp));
+    }
+
+    public static void printArray(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(array[i] + " ");
+        }
+        System.out.println("");
     }
 }
 
 class Solution {
-    public int maxEnvelopes(int[][] envelopes) {
-        Node root = makeGraph(envelopes);
+    public int maxEnvelopes(int[][] e) {
+        Arrays.sort(e, (a, b) -> a[0] == b[0] ? (b[1] - a[1]) : a[0] - b[0]);
 
-        return solve(root, 0);
-    }
+        int[] d = new int[e.length + 1];
+        int max = 0;
+        d[0] = -1;
 
-    private int solve(Node node, int deep) {
-        int max = deep;
-        for (int i = 0; i < node.nodes.size(); i++) {
-            int d = print(node.nodes.get(i), deep+1);
-            max = max < d ? d : max;
+        for (int i = 1; i < d.length; i++) {
+            d[i] = Integer.MAX_VALUE;
         }
-        return max;
-    }
+        
+        for (int i = 0; i < e.length; i++) {
+            int j = binarySearch(d, e[i][1]);
+            if (d[j] > e[i][1]) {
+                d[j] = e[i][1];
 
-    private Node makeGraph(int[][] envelopes) {
-        Node root = new Node(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        List<Node> leaves = new LinkedList<>();
-        for (int i = 0; i < envelopes.length; i++) {
-            Node nn = new Node(envelopes[i][0], envelopes[i][1]);
-
-            for (int j = 0; j < root.nodes.size(); j++) {
-                if (nn.w > root.nodes.get(j).w && nn.h > root.nodes.get(j).h) {
-                    nn.nodes.add(root.nodes.get(j));
-                }
-                if (nn.w < root.nodes.get(j).w && nn.h < root.nodes.get(j).h) {
-                    root.nodes.get(j).nodes.add(nn);
-                }
+                max = max < j ? j : max;
             }
-            root.nodes.add(nn);
         }
 
-        return root;
-    }
-
-    static class Node {
-        int w;
-        int h;
-
-        List<Node> nodes = new LinkedList<Node>();
-
-        public Node(int w, int h) {
-            this.w = w;
-            this.h = h;
+        for (int i = 0; i < d.length; i++) {
+            System.out.println(d[i]);
         }
+
+        return max;
+    } 
+
+    private int binarySearch(int[] d, int a) {
+        int l = 0;
+        int r = d.length;
+
+        while (l + 1 < r) {
+            int c = (l + r) / 2;
+            if (a > d[c]) {
+                l = c;
+            } else {
+                r = c;
+            }
+        }
+
+        return r;
     }
 }
