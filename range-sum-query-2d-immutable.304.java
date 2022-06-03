@@ -1,3 +1,10 @@
+/* Preparing:
+ * Use dynamic algorithm to process sum of matrix (0, 0, i, j). It's possible
+ * by formula: sum[i][j] = sum[i-1][j] + sum[i][j-1] - sum[i-1][j-1] + matrix[i][j]
+ * Next we can get sum of any matrix region by formula: 
+ * sum[row2][col2] - sum[row1-1][col2] - sum[row2][col1-1] + sum[row-1][col-1].
+ */
+
 public class RangeSumQuery2DImmutable304 {
     public static void main(String[] args) {
         int[][] matrix = {
