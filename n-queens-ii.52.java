@@ -1,6 +1,3 @@
-import java.util.List;
-import java.util.LinkedList;
-
 public class NQueensII51 {
     public static void main(String[] args) {
         int excepted = 352;
