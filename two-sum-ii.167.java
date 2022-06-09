@@ -8,7 +8,7 @@ public class TwoSumII167 {
 class Solution {
     public int[] twoSum(int[] numbers, int target) {
         for (int i = 0; i < numbers.length && numbers[i] <= target / 2; i++) {
-            int pair = bs(numbers, target - numbers[i], i + 1, numbers.length);
+            int pair = bs(numbers, target - numbers[i], i + 1, numbers.length-1);
             if (numbers[i] + numbers[pair] == target) {
                 return new int[] { i + 1, pair + 1 };
             }
