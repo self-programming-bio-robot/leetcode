@@ -13,17 +13,15 @@ class Solution {
         Map<Character, Integer> set = new HashMap<>();
 
         int max = 0;
+        int end = 0;
         for (int i = 0; i < s.length(); i++) {
             if (set.containsKey(s.charAt(i))) {
-                int prevInd = set.get(s.charAt(i));
-                int setLen = set.size();
-                for (int j = i - setLen; j < prevInd; j++) {
-                    set.remove(s.charAt(j));
-                }
+                end = Math.max(set.get(s.charAt(i)) + 1, end);
+                set.put(s.charAt(i), i); 
             } else {
                 set.put(s.charAt(i), i);
-                max = max < set.size() ? set.size() : max;
             }
+            max = Math.max(max, i - end + 1);
         }
 
         return max;
