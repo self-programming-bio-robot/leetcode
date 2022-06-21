@@ -16,10 +16,10 @@ class Solution {
         for (int i = 1; i <= searchWord.length(); i++) { 
             String subs = searchWord.substring(0, i);
             int k = bs(products, subs, 0, products.length-1);
-            System.out.println(products[k]);
             System.out.println(subs);
+            System.out.println(products[k]);
             List<String> row = new LinkedList();
-            for (int j = k; j < k + 4 && j < products.length; j++){
+            for (int j = k; j < k + 3 && j < products.length; j++){
                 if (products[j].indexOf(subs) == 0)
                     row.add(products[j]);
             }
@@ -31,13 +31,14 @@ class Solution {
     private int bs(String[] p, String s, int l, int r) {
         while (l+1 < r) {
             int m = (l + r) / 2;
-            if (p[m].compareTo(s) > 0) {
+            if (p[m].compareTo(s) >= 0) {
                 r = m;
             } else {
                 l = m;
             }
+
         }
-        return l;
+        return p[l].indexOf(s) == 0 ? l : r;
     }
 }
 
