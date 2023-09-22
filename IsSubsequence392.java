@@ -40,16 +40,13 @@ class TestCase {
 
 class Solution {
     public boolean isSubsequence(String s, String t) {
-        int j = 0;
-        for (int i = 0; i < s.length();) {
-            if (j == t.length() - s.length() + i + 1)
-                return false;
-            if (s.charAt(i) == t.charAt(j)) {
+        int i = 0;
+        for (char c: t.toCharArray()) {
+            if (i == s.length()) return true;
+            if (c == s.charAt(i)) {
                 i++;
             }
-            j++;
         }
-
-        return true;
+        return i == s.length();
     }
 }
